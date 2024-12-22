@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: #333;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .navbar a {
+            color: #fff;
+            margin: 0 10px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Cover Image */
+        .cover {
+            background: url('https://via.placeholder.com/1200x500') no-repeat center center;
+            background-size: cover;  /* This ensures the image covers the div */
+            height: 500px;  /* Fixed height for the cover section */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+        }
+
+        .cover img {
+            width: 100%;    /* Ensures the image covers the div's width */
+            height: auto;   /* Ensures the image covers the div's height */
+            object-fit: cover;  /* Ensures the image doesn't stretch and maintains aspect ratio */
+        }
+
+        .cover h1 {
+            font-size: 3em;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        /* Featured Hotels */
+        .featured {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .featured h2 {
+            margin-bottom: 20px;
+        }
+
+        .hotel-card {
+            display: inline-block;
+            background: #f9f9f9;
+            margin: 10px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .hotel-card img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        .hotel-card h3 {
+            margin: 15px 0;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>{{ block_title  }}</h1><hr>
+
+    <!-- Cover Image -->
+    <div class="cover">
+        <img src="static/hotel_images/cover.jpg" alt="Hotel 1">
+    </div>
+
+    <!-- Featured Hotels -->
+    <div class="featured">
+        <h2>Featured Hotels</h2>
+        <div class="hotel-card">
+            <img src="https://via.placeholder.com/300x200" alt="Hotel 1">
+            <h3>Hotel Paradise</h3>
+            <p>Luxury and comfort at its best.</p>
+        </div>
+        <div class="hotel-card">
+            <img src="https://via.placeholder.com/300x200" alt="Hotel 2">
+            <h3>City Escape</h3>
+            <p>Experience the heart of the city.</p>
+        </div>
+        <div class="hotel-card">
+            <img src="https://via.placeholder.com/300x200" alt="Hotel 3">
+            <h3>Cozy Cottage</h3>
+            <p>A serene getaway in the countryside.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Hotel Reservation. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Add JavaScript interactivity here if needed
+        console.log('Homepage loaded successfully!');
+    </script>
+{% endblock content %}
+
+
