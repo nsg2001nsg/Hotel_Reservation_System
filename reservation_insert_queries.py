@@ -1,5 +1,6 @@
 import random
-from datetime import datetime, timedelta
+import datetime
+from datetime import timedelta
 from hotelreservation import db, create_app
 from hotelreservation.models import Hotel, Room, Reservation, User
 
@@ -25,7 +26,7 @@ for hotel in hotels:
     rooms = Room.query.filter_by(hotel=hotel)
     for room in rooms:
         for i in range(1, reservations_per_room + 1):
-            date_posted = datetime.utcnow() - timedelta(days=random.randint(0, 365))
+            date_posted = datetime.date.today() - timedelta(days=random.randint(0, 365))
             checkin_date = date_posted + timedelta(days=random.randint(0, 365))
             checkout_date = checkin_date + timedelta(days=random.randint(1, 8))
             payment_status = random.choice([True, False])

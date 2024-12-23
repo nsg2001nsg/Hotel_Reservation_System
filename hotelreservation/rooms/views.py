@@ -14,12 +14,27 @@ def room(room_id):
     return render_template("room.html", title="Room", block_title="Room Page", room=room)
 
 
-@rooms.route("/rooms/<string:number>/")
-def room_reservations(number):
+@rooms.route("/rooms/<int:room_id>/")
+def room_reservations(room_id):
     page = request.args.get("page", 1, type=int)
-    room = Room.query.filter_by(number=number).first_or_404()
+    room = Room.query.filter_by(id=room_id).first_or_404()
     reservations = Reservation.query.filter_by(room=room).order_by(Reservation.checkin_date.asc()).paginate(page=page, per_page=5)
+    # reservations = Reservation.query.filter_by(room=room).group_by(room.type).order_by(Reservation.checkin_date.asc()).paginate(page=page, per_page=5)
     return render_template("room_reservations.html", title="Room Reservations", block_title="Room Reservations Page", reservations=reservations, room=room)
+
+
+@rooms.route("/rooms/create/", methods=["GET", "POST"])
+@login_required
+def create_room():
+    form = RoomForm()
+    if form.validate_on_submit():
+        room = Room(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(room)
+        db.session.commit()
+        flash("Your room has been created.", "success")
+        return redirect(url_for("main.home"))
+    return render_template("create_room.html", title="Create Room", block_title="Create Room Page",
+                           legend="Create Room Info", form=form)
 
 
 @rooms.route("/rooms/<int:room_id>/update/", methods=["GET", "POST"])

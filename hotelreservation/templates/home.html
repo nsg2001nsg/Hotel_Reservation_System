@@ -4,22 +4,22 @@
     <h1>{{ block_title }}</h1><hr>
     {% for hotel in hotels %}
         <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ url_for('static', filename='hotel_images/' + hotel.image_file) }}">
             <div class="media-body">
-                <!-- Add a container for the image above the text -->
                 <div class="image-container">
-                    <img class="img-fluid rounded" src="{{ url_for('static', filename='hotel_images/' + hotel.image_file) }}" alt="{{ hotel.name }}">
+<!--                    <a class="article-title" href="{{ url_for('hotels.hotel', hotel_id=hotel.id) }}">-->
+                    <a class="article-title" href="{{ url_for('hotels.hotel_rooms', hotel_id=hotel.id) }}">
+                        <img class="img-fluid rounded" src="{{ url_for('static', filename='hotel_images/' + hotel.image_file) }}" alt="{{ hotel.name }}">
+                    </a>
                 </div><hr>
                 <div class="article-metadata">
-                    <a class="mr-2" href="#">{{ hotel.type }}</a>
-                    <small class="text-muted">{{ hotel.date_posted.strftime("%Y-%m-%d") }}</small>
+                    <h5>
+                        {{ hotel.type }}
+                        <small class="article-content">{{ hotel.state }}, {{ hotel.city }}</small>
+                    </h5>
                 </div>
-                <h2><a class="article-title" href="{{ url_for('hotels.hotel', hotel_id=hotel.id) }}">{{ hotel.name }}</a></h2>
-                <h5><a class="article-title" href="{{ url_for('hotels.hotel_rooms', name=hotel.name) }}">{{ hotel.name }} Rooms</a></h5>
-                <h5><a class="article-title" href="{{ url_for('hotels.hotel_reservations', name=hotel.name) }}">{{ hotel.name }} Reservations</a></h5>
+<!--                <h2><a class="article-title" href="{{ url_for('hotels.hotel', hotel_id=hotel.id) }}">{{ hotel.name }}</a></h2>-->
+                <h2><a class="article-title" href="{{ url_for('hotels.hotel_rooms', hotel_id=hotel.id) }}">{{ hotel.name }}</a></h2>
                 <p class="article-content">{{ hotel.description }}</p>
-                <p class="article-content">{{ hotel.city }}</p>
-                <p class="article-content">{{ hotel.state }}</p>
             </div>
         </article>
     {% endfor %}

@@ -1,5 +1,5 @@
 import random
-from hotelreservation import db, create_app
+from hotelreservation import bcrypt, db, create_app
 from hotelreservation.models import User
 
 app = create_app()
@@ -9,13 +9,15 @@ app = create_app()
 first_name = ["suraj", "ojas", "vishal", "gyan", "ankit", "anil"]
 last_name = ["gupta", "rajvaidya", "singh", "chauhan", "singh", "pradhan"]
 
+password = "password"
+
 # Generate users
 users = list()
 users.append(
     User(
         username="surajsgupta0107",
         email="surajsgupta0107@gmail.com",
-        password="password",
+        password=bcrypt.generate_password_hash(password).decode("utf-8"),
         contact=str(random.randint(7000000000, 9999999999)),
         super_user=True,
         staff_user=True,
@@ -25,7 +27,7 @@ users.append(
     User(
         username="sgcorp0107",
         email="sgcorp0107@gmail.com",
-        password="password",
+        password=bcrypt.generate_password_hash(password).decode("utf-8"),
         contact=str(random.randint(7000000000, 9999999999)),
         super_user=True,
         staff_user=True,
@@ -37,7 +39,7 @@ for i in range(len(first_name)):
         User(
             username=f"{first_name[i]}{last_name[i]}",
             email=f"{first_name[i]}{last_name[i]}@gmail.com",
-            password=f"password",
+            password=bcrypt.generate_password_hash(password).decode("utf-8"),
             contact=str(random.randint(7000000000, 9999999999)),
         )
     )

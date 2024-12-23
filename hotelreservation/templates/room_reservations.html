@@ -2,33 +2,48 @@
 
 {% block content %}
     <h1>{{ block_title }}</h1><hr>
-    <h2 class="mb-3">Rooms by Room {{ room.name }} ({{ rooms.total }})</h2>
-    {% for room in rooms.items %}
-        <article class="media content-section">
-          <div class="media-body">
-            <!-- Add a container for the image above the text -->
+    <h2 class="mb-3">Reservations for {{ room.type }} ({{ reservations.total }})</h2>
+    <article class="media content-section">
+        <div class="media-body">
             <div class="image-container">
-                <img class="img-fluid rounded" src="{{ url_for('static', filename='room_images/' + room.image_file) }}" alt="{{ room.number }}">
+                <a class="article-title" href="">
+                    <img class="img-fluid rounded" src="{{ url_for('static', filename='room_images/' + room.image_file) }}" alt="{{ room.name }}">
+                </a>
             </div><hr>
             <div class="article-metadata">
-              <a class="mr-2" href="#">{{ room.type }}</a>
-              <small class="text-muted">{{ room.date_posted.strftime('%Y-%m-%d') }}</small>
-              <a class="mr-2" href="#">{{ room.availability_status }}</a>
+                <h5>
+                    {{ room.type }}
+                    <small class="article-content">{{ room.capacity }} bed(s), upto {{ room.capacity * 3 }} guests</small>
+                    <a class="btn btn-primary btn-lg mt-1 mb-1" href="{{ url_for('reservations.create_reservation', room_id=room.id) }}">Reserve</a>
+                </h5>
             </div>
-            <h2><a class="article-title" href="{{ url_for('rooms.room', room_id=room.id) }}">{{ room.number }}</a></h2>
-            <h5><a class="article-title" href="{{ url_for('rooms.room_reservations', number=room.number) }}">{{ room.number }} Reservations</a></h5>
+<!--            <h2><a class="article-title" href="{{ url_for('rooms.room', room_id=room.id) }}">{{ room.number }}</a></h2>-->
+<!--            <h2><a class="article-title" href="{{ url_for('rooms.room_reservations', room_id=room.id) }}">{{ room.number }}</a></h2>-->
             <p class="article-content">{{ room.description }}</p>
-            <p class="article-content">{{ room.price }}</p>
-            <p class="article-content">{{ room.capacity }}</p>
-          </div>
+            <p class="article-content">price - Rs. {{ room.price }}/-</p>
+        </div>
+    </article>
+    {% for reservation in reservations.items %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <h5>
+                        {{ reservation.type }}
+                        <small class="article-content">upto {{ reservation.guest_count }} guests</small>
+                    </h5>
+                </div>
+<!--                <h2><a class="article-title" href="{{ url_for('reservations.reservation', reservation_id=reservation.id) }}">{{ reservation.number }}</a></h2>-->
+                <p class="article-content">Checkin Date - {{ reservation.checkin_date.strftime('%Y-%m-%d') }}</p>
+                <p class="article-content">CheckOut Date - {{ reservation.checkout_date.strftime('%Y-%m-%d') }}</p>
+            </div>
         </article>
     {% endfor %}
-    {% for page_num in rooms.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% for page_num in reservations.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}
-        {% if rooms.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('rooms.room_rooms', name=room.name, page=page_num) }}">{{ page_num }}</a>
+        {% if reservations.page == page_num %}
+          <a class="btn btn-info mb-4" href="{{ url_for('rooms.room_reservations', room_id=room.id, page=page_num) }}">{{ page_num }}</a>
         {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('rooms.room_rooms', name=room.name, page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('rooms.room_reservations', room_id=room.id, page=page_num) }}">{{ page_num }}</a>
         {% endif %}
       {% else %}
         ...

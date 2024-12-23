@@ -1,5 +1,5 @@
 from hotelreservation import db
-from hotelreservation.models import User, Post
+from hotelreservation.models import User, Post, Hotel, Room, Reservation
 
 # db.create_all()  # create all models(tables)
 # db.drop_all()  # drop all models(tables)
@@ -42,7 +42,21 @@ for i in range(1, 13):
     db.session.add(post)
 db.session.commit()
 
+reservations = Reservation.query.all()
+for res in reservations:
+    checkin_date = res.checkin_date.date()
+    res.checkin_date = checkin_date
+    checkout_date = res.checkout_date.date()
+    res.checkout_date = checkout_date
+db.session.commit()
+
+for res in reservations:
+    print(res.checkin_date)
+    print(res.checkout_date)
+
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 s = Serializer("secret")
 token = s.dumps({"user_id": "1"})
 s.loads(token, max_age=30)
+
+

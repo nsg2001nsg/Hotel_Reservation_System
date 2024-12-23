@@ -3,29 +3,28 @@
 {% block content %}
     <h1>{{ block_title }}</h1><hr>
     <article class="media content-section">
-      <img class="rounded-circle article-img" src="{{ url_for('static', filename='room_images/' + room.image_file) }}">
-      <div class="media-body">
-        <!-- Add a container for the image above the text -->
-        <div class="image-container">
-            <img class="img-fluid rounded" src="{{ url_for('static', filename='room_images/' + room.image_file) }}" alt="{{ room.name }}">
-        </div><hr>
-        <div class="article-metadata">
-          <a class="mr-2" href="#">{{ room.type }}</a>
-          <small class="text-muted">{{ room.date_posted.strftime('%Y-%m-%d') }}</small>
-          <a class="mr-2" href="#">{{ room.availability_status }}</a>
+        <div class="media-body">
+            <div class="image-container">
+                <a class="article-title" href="{{ url_for('rooms.room_reservations', room_id=room.id) }}">
+                    <img class="img-fluid rounded" src="{{ url_for('static', filename='room_images/' + room.image_file) }}" alt="{{ room.name }}">
+                </a>
+            </div><hr>
+            <div class="article-metadata">
+                <h5>
+                    {{ room.type }}
+                    <small class="article-content">{{ room.capacity }} bed(s), upto {{ room.capacity * 3 }} guests</small>
+                </h5>
+            </div>
+<!--            <h2><a class="article-title" href="{{ url_for('rooms.room_reservations', room_id=room.id) }}">{{ room.number }}</a></h2>-->
+            <p class="article-content">{{ room.description }}</p>
+            <p class="article-content">price - Rs. {{ room.price }}/-</p>
+            {% if room.author == current_user %}
+                <div>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('rooms.update_room', room_id=room.id) }}">Update</a>
+                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                </div>
+            {% endif %}
         </div>
-        <h2 class="article-title">{{ room.number }}</h2>
-        <h5><a class="article-title" href="{{ url_for('rooms.room_reservations', number=room.number) }}">{{ room.number }} Reservations</a></h5>
-        <p class="article-content">{{ room.description }}</p>
-        <p class="article-content">{{ room.price }}</p>
-        <p class="article-content">{{ room.capacity }}</p>
-        {% if room.author == current_user %}
-          <div>
-            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('rooms.update_room', room_id=room.id) }}">Update</a>
-            <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
-          </div>
-        {% endif %}
-      </div>
     </article>
     <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
