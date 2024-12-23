@@ -2,6 +2,34 @@
 
 {% block content %}
     <h1>{{ block_title }}</h1><hr>
+    <form method="POST" action="">
+        <h5>Filter By:</h5>
+        <h6>
+            Hotel Name:
+            <select name="Names">
+                {% for hotel_name in hotel_names %}
+                    <option value="{{ hotel_name }}" >{{ hotel_name }}</option>
+                {% endfor %}
+            </select>
+            <input class="btn btn-primary btn-md mt-1 mb-1" type="submit" value="Filter" />
+<!--            <a class="btn btn-primary btn-mb mt-1 mb-1" href="{{ url_for('main.home') }}">Filter</a>-->
+            City:
+            <select name="Cities">
+                {% for hotel_citi in hotel_cities %}
+                    <option value="{{ hotel_citi }}" >{{ hotel_citi }}</option>
+                {% endfor %}
+            </select>
+            <input class="btn btn-primary btn-md mt-1 mb-1" type="submit" value="Filter" />
+            State:
+            <select name="States">
+                {% for hotel_state in hotel_states %}
+                    <option value="{{ hotel_state }}" >{{ hotel_state }}</option>
+                {% endfor %}
+            </select>
+            <input class="btn btn-primary btn-md mt-1 mb-1" type="submit" value="Filter" />
+        </h6>
+    </form>
+    <hr>
     {% for hotel in hotels %}
         <article class="media content-section">
             <div class="media-body">

@@ -3,7 +3,6 @@ from datetime import timedelta
 
 from flask import render_template, request, Blueprint, abort, flash, redirect, url_for
 from flask_login import login_required, current_user
-from sqlalchemy import Date
 
 from hotelreservation import db
 from hotelreservation.models import Room, Reservation, Hotel
@@ -61,16 +60,16 @@ def update_reservation(reservation_id):
         abort(403)
     form = ReservationForm()
     if form.validate_on_submit():
-        reservation.title = form.title.data
-        reservation.content = form.content.data
+        reservation.type = form.type.data
+        reservation.guest_count = form.guest_count.data
         db.session.commit()
         flash("Your reservation has been updated!", "success")
         return redirect(url_for("reservations.reservation", reservation_id=reservation.id))
     elif request.method == "GET":
-        form.title.data = reservation.title
-        form.content.data = reservation.content
-    return render_template("create_reservation.html", title="Update Hotel", block_title="Update Hotel Page",
-                           legend="Update Hotel Info", form=form)
+        form.type.data = reservation.type
+        form.guest_count.data = reservation.guest_count
+    return render_template("create_reservation.html", title="Update Reservation", block_title="Update Reservation Page",
+                           legend="Update Reservation Info", form=form)
 
 
 @reservations.route("/reservations/<int:reservation_id>/delete/", methods=["POST"])
