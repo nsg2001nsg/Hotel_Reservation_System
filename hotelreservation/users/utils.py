@@ -34,3 +34,27 @@ def send_reset_email(user):
 If you did not make this request then simply ignore this email and no changes will be made.
 """
     mail.send(msg)
+
+
+def send_registration_email(user):
+    # token = user.get_reset_token()
+    msg = Message("Registration Info",
+                  sender="noreply@demo.com",
+                  recipients=[user.email])
+    msg.body = f"""Your account has been created. You can login now.
+
+If you did not make this request then simply ignore this email and no changes will be made.
+"""
+    mail.send(msg)
+
+
+def send_reservation_email(user, status):
+    # token = user.get_reset_token()
+    msg = Message("Reservation Info",
+                  sender="noreply@demo.com",
+                  recipients=[user.email])
+    msg.body = f"""Your reservation has been created. Booking Status: {status}.
+
+If you did not make this request then simply ignore this email and no changes will be made.
+"""
+    mail.send(msg)

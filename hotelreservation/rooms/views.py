@@ -17,7 +17,7 @@ def room(room_id):
 @rooms.route("/rooms/<int:room_id>/")
 def room_reservations(room_id):
     page = request.args.get("page", 1, type=int)
-    room = Room.query.filter_by(id=room_id).first_or_404()
+    room = Room.query.get_or_404(room_id)
     reservations = Reservation.query.filter_by(room=room).order_by(Reservation.checkin_date.asc()).paginate(page=page, per_page=5)
     # reservations = Reservation.query.filter_by(room=room).group_by(room.type).order_by(Reservation.checkin_date.asc()).paginate(page=page, per_page=5)
     return render_template("room_reservations.html", title="Room Reservations", block_title="Room Reservations Page", reservations=reservations, room=room)

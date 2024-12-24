@@ -7,6 +7,7 @@ from flask_login import login_required, current_user
 from hotelreservation import db
 from hotelreservation.models import Room, Reservation, Hotel
 from hotelreservation.reservations.forms import ReservationForm
+from hotelreservation.users.utils import send_reservation_email
 
 reservations = Blueprint("reservations", __name__)
 
@@ -16,14 +17,14 @@ reservation_types = ["Tentative", "Waitlisted", "Confirmed"]
 @reservations.route("/reservation/<int:reservation_id>/")
 def reservation(reservation_id):
     reservation = Reservation.query.get_or_404(reservation_id)
-    return render_template("reservation.html", title="Reservation", block_title="Reservation Page", reservation=reservation, room=reservation.room_id)
+    return render_template("reservation.html", title="Reservation", block_title="Reservation Page", reservation=reservation, room=reservation.room)
 
 
 @reservations.route("/reservations/<int:room_id>/create/", methods=["GET", "POST"])
 @login_required
 def create_reservation(room_id):
-    room = Room.query.filter_by(id=room_id).first_or_404()
-    hotel = Hotel.query.filter_by(id=room.hotel_id).first_or_404()
+    room = Room.query.get_or_404(room_id)
+    hotel = Hotel.query.get_or_404(room.hotel.id)
     form = ReservationForm()
     if form.validate_on_submit():
         last_reservation = Reservation.query.order_by(Reservation.id.desc()).first()
@@ -39,7 +40,8 @@ def create_reservation(room_id):
         )
         db.session.add(reservation)
         db.session.commit()
-        flash("Your reservation has been created.", "success")
+        flash(f"Your reservation has been created. Booking Status: {form.type.data}.", "success")
+        send_reservation_email(current_user, form.type.data)
         return redirect(url_for("main.home"))
     elif request.method == "GET":
         checkin_date = datetime.date.today() + timedelta(days=1)

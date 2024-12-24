@@ -17,7 +17,7 @@ def hotel(hotel_id):
 @hotels.route("/hotels/<int:hotel_id>/")
 def hotel_rooms(hotel_id):
     page = request.args.get("page", 1, type=int)
-    hotel = Hotel.query.filter_by(id=hotel_id).first_or_404()
+    hotel = Hotel.query.get_or_404(hotel_id)
     # rooms = Room.query.filter_by(hotel=hotel).order_by(Room.price.desc()).paginate(page=page, per_page=5)
     rooms = Room.query.filter_by(hotel=hotel).group_by(Room.type).order_by(Room.price.asc()).paginate(page=page, per_page=5)
     return render_template("hotel_rooms.html", title="Hotel Rooms", block_title="Hotel Rooms Page", rooms=rooms, hotel=hotel)

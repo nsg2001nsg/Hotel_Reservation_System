@@ -3,8 +3,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 from hotelreservation import db, bcrypt
 from hotelreservation.users.forms import RegistrationForm, LoginForm, UpdateAccountForm, RequestResetForm, ResetPasswordForm
-from hotelreservation.models import User, Post
-from hotelreservation.users.utils import save_picture, send_reset_email
+from hotelreservation.models import User, Post, Reservation
+from hotelreservation.users.utils import save_picture, send_reset_email, send_registration_email
 
 users = Blueprint("users", __name__)
 
@@ -18,6 +18,7 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f"Your account has been created. You can login now.", "success")
+        send_registration_email(user)
         return redirect(url_for("users.login"))
     return render_template("register.html", title="Register", block_title="Register Page", legend="Register Info", form=form)
 
@@ -66,12 +67,20 @@ def account():
     return render_template("account.html", title="Account", block_title="Account Page", legend="Account Info", image_file=image_file, form=form)
 
 
-@users.route("/users/<string:username>/")
+@users.route("/user/posts/<string:username>/")
 def user_posts(username):
     page = request.args.get("page", 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
     posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     return render_template("user_posts.html", title="User Posts", block_title="User Posts Page", posts=posts, user=user)
+
+
+@users.route("/user/reservations/<string:username>/")
+def user_reservations(username):
+    page = request.args.get("page", 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    reservations = Reservation.query.filter_by(customer=user).order_by(Reservation.date_posted.desc()).paginate(page=page, per_page=5)
+    return render_template("user_reservations.html", title="User Reservations", block_title="User Reservations Page", reservations=reservations, user=user)
 
 
 @users.route("/reset_password/", methods=["GET", "POST"])

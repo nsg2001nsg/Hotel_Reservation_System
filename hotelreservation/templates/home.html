@@ -1,32 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>{{ block_title }}</h1><hr>
-    <form method="POST" action="">
+<!--    <h1>{{ block_title }}</h1><hr>-->
+    <h1>Explore Hotels</h1><hr>
+    <form method="POST" action="{{ url_for('main.home', filter_key=filter_key, filter_val=filter_val) }}">
         <h5>Filter By:</h5>
         <h6>
             Hotel Name:
-            <select name="Names">
+            <select name="name">
                 {% for hotel_name in hotel_names %}
                     <option value="{{ hotel_name }}" >{{ hotel_name }}</option>
                 {% endfor %}
             </select>
-            <input class="btn btn-primary btn-md mt-1 mb-1" type="submit" value="Filter" />
-<!--            <a class="btn btn-primary btn-mb mt-1 mb-1" href="{{ url_for('main.home') }}">Filter</a>-->
-            City:
-            <select name="Cities">
-                {% for hotel_citi in hotel_cities %}
-                    <option value="{{ hotel_citi }}" >{{ hotel_citi }}</option>
-                {% endfor %}
-            </select>
-            <input class="btn btn-primary btn-md mt-1 mb-1" type="submit" value="Filter" />
+            <input id="nx" name="name" class="btn btn-info btn-md mt-1 mb-1" type="submit" value="Filter" />
             State:
-            <select name="States">
+            <select name="state">
                 {% for hotel_state in hotel_states %}
                     <option value="{{ hotel_state }}" >{{ hotel_state }}</option>
                 {% endfor %}
             </select>
-            <input class="btn btn-primary btn-md mt-1 mb-1" type="submit" value="Filter" />
+            <input id="sx" name="state" class="btn btn-info btn-md mt-1 mb-1" type="submit" value="Filter" />
+            City:
+            <select name="city">
+                {% for hotel_city in hotel_cities %}
+                    <option value="{{ hotel_city }}" >{{ hotel_city }}</option>
+                {% endfor %}
+            </select>
+            <input id="cx" name="city" class="btn btn-info btn-md mt-1 mb-1" type="submit" value="Filter" />
         </h6>
     </form>
     <hr>
@@ -54,9 +54,9 @@
     {% for page_num in hotels.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}
         {% if hotels.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-info mb-4" href="{{ url_for('main.home', filter_key=filter_key, filter_val=filter_val, page=page_num) }}">{{ page_num }}</a>
         {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', filter_key=filter_key, filter_val=filter_val, page=page_num) }}">{{ page_num }}</a>
         {% endif %}
       {% else %}
         ...

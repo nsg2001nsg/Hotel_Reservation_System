@@ -4,38 +4,21 @@
     <h1>{{ block_title }}</h1><hr>
     <article class="media content-section">
         <div class="media-body">
-            <div class="image-container">
-                <a class="article-title" href="">
-                    <img class="img-fluid rounded" src="{{ url_for('static', filename='room_images/' + room.image_file) }}" alt="{{ room.name }}">
-                </a>
-            </div><hr>
-            <div class="article-metadata">
-                <h5>
-                    {{ room.type }}
-                    <small class="article-content">{{ room.capacity }} bed(s), upto {{ room.capacity * 3 }} guests</small>
-                    <a class="btn btn-primary btn-lg mt-1 mb-1" href="{{ url_for('reservations.create_reservation', room_id=room.id) }}">Reserve</a>
-                </h5>
-            </div>
-<!--            <h2><a class="article-title" href="{{ url_for('rooms.room', room_id=room.id) }}">{{ room.number }}</a></h2>-->
-<!--            <h2><a class="article-title" href="{{ url_for('rooms.room_reservations', room_id=room.id) }}">{{ room.number }}</a></h2>-->
-            <p class="article-content">{{ room.description }}</p>
-            <p class="article-content">price - Rs. {{ room.price }}/-</p>
-        </div>
-    </article>
-    <article class="media content-section">
-        <div class="media-body">
+            <h6 class=" mb-4">Hotel: {{ reservation.hotel.name }}<br>{{ reservation.hotel.city }}, {{ reservation.hotel.state }}</h6>
+            <h6 class=" mb-4">Room Type: {{ reservation.room.type }}<br>{{ reservation.room.capacity }} bed(s), upto {{ reservation.room.capacity * 3 }} guests</h6>
             <div class="article-metadata">
                 <h5>
                     {{ reservation.type }}
                     <small class="article-content">upto {{ reservation.guest_count }} guests</small>
                 </h5>
             </div>
-            <p class="article-content">checkin_date - {{ reservation.checkin_date.strftime('%Y-%m-%d') }}</p>
-            <p class="article-content">checkin_date - {{ reservation.checkout_date.strftime('%Y-%m-%d') }}</p>
-            {% if room.author == current_user %}
+            <h5>Reservation Number: {{ reservation.number }}</h5>
+            <h6 class="article-content">Checkin Date - {{ reservation.checkin_date.strftime('%Y-%m-%d') }}</h6>
+            <h6 class="article-content">CheckOut Date - {{ reservation.checkout_date.strftime('%Y-%m-%d') }}</h6>
+            {% if reservation.customer == current_user %}
                 <div>
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('reservations.update_reservation', reservation_id=reservation.id) }}">Update</a>
-                    <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                    <a class="btn btn-info btn-lg mt-1 mb-1" href="{{ url_for('reservations.update_reservation', reservation_id=reservation.id) }}">Update</a>
+                    <button type="button" class="btn btn-danger btn-lg m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
                 </div>
             {% endif %}
         </div>
