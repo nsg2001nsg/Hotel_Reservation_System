@@ -5,13 +5,24 @@ body {
   margin-bottom: 5rem;
 }
 .container {
-    max-width: 100%;
-    text-align: center;
+    width: 90%;
 }
 .container img {
-    width: 90%;
-    height: 600px;
     text-align: center;
+    width: 100%;
+    height: 500px;
+}
+.container cover {
+    width: 100%;
+}
+.container cover img {
+    text-align: center;
+    width: 100%;
+    height: 500px;
+}
+.footer-text {
+    text-align: center;
+    color: #ffffff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -88,4 +99,31 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+}
+/* Featured Hotels */
+.featured {
+    text-align: center;
+    padding: 40px 40px;
+}
+.featured h2 {
+    margin-bottom: 40px;
+}
+.hotel-card {
+    display: inline-block;
+    background: #f9f9f9;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 480px;
+    height: 320px;
+}
+.hotel-card img {
+    width: 100%;
+    height: 320px;
+    border-radius: 10px;
+}
+.hotel-card h3 {
+    margin: 10px 10px;
+    padding: 10px 10px;
 }

@@ -1,108 +1,38 @@
 {% extends "base.html" %}
 
-{% block style %}
-<style>
-        /* General Styles */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            color: #333333;
-        }
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        /* Cover Image */
-        .cover {
-            background: url('https://via.placeholder.com/1200x800') no-repeat center center;
-            background-size: cover;  /* This ensures the image covers the div */
-            width: 1200px;  /* Fixed height for the cover section */
-            height: 800px;  /* Fixed height for the cover section */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            text-align: center;
-        }
-        .cover img {
-            width: 100%;    /* Ensures the image covers the div's width */
-            height: auto;   /* Ensures the image covers the div's height */
-            object-fit: cover;  /* Ensures the image doesn't stretch and maintains aspect ratio */
-        }
-        .cover h1 {
-            font-size: 3em;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 10px;
-            border-radius: 10px;
-        }
-        /* Featured Hotels */
-        .featured {
-            text-align: center;
-            padding: 40px 0;
-        }
-        .featured h2 {
-            margin-bottom: 40px;
-        }
-        .hotel-card {
-            display: inline-block;
-            background: #f9f9f9;
-            margin: 10px;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 480px;
-            height: 320px;
-        }
-        .hotel-card img {
-            max-width: 90%;
-            height: 320px;
-            border-radius: 10px;
-        }
-        .hotel-card h3 {
-            margin: 10px 10px;
-            padding: 10px 10px;
-        }
-</style>
-{% endblock style %}
 {% block content %}
-    <h1>{{ block_title }}</h1><hr>
+<!--    <h1>{{ block_title }}</h1><hr>-->
         <!-- Cover Image -->
         <div class="image-container">
-<!--            <img class="img-fluid rounded" src="{{ url_for('static', filename='hotel_images/' + hotels.0.image_file) }}" alt="{{ hotels.0.name }}">-->
-            <img class="img-fluid rounded" src="static/hotel_images/cover.jpg" alt="Hotel 1">
-        </div><hr>
-<!--        <div class="cover">-->
-<!--            <img src="static/hotel_images/cover.jpg" alt="Hotel 1">-->
-<!--        </div>-->
+            <div class="cover">
+                <img class="img-fluid rounded" src="static/hotel_images/cover.jpg" alt="Hotel 1">
+            </div>
+        </div>
         <!-- Featured Hotels -->
         <div class="featured">
             <h2>Featured Hotels</h2>
-<!--            <div class="hotel-card">-->
-<!--                <img src="https://via.placeholder.com/600x400" alt="Hotel 1">-->
-<!--                <h3>Hotel Paradise</h3>-->
-<!--            </div>-->
             <div class="hotel-card">
                 <img class="img-fluid rounded" src="{{ url_for('static', filename='hotel_images/' + hotels.0.image_file) }}" alt="{{ hotels.0.name }}">
-                <h3>City Escape</h3>
+                <h3>{{ hotels.0.name }}</h3>
             </div>
             <div class="hotel-card">
                 <img class="img-fluid rounded" src="{{ url_for('static', filename='hotel_images/' + hotels.2.image_file) }}" alt="{{ hotels.2.name }}">
-                <h3>City Escape</h3>
+                <h3>{{ hotels.2.name }}</h3>
             </div>
             <div class="hotel-card">
                 <img class="img-fluid rounded" src="{{ url_for('static', filename='hotel_images/' + hotels.4.image_file) }}" alt="{{ hotels.4.name }}">
-                <h3>City Escape</h3>
+                <h3>{{ hotels.4.name }}</h3>
             </div>
             <div class="hotel-card">
                 <img class="img-fluid rounded" src="{{ url_for('static', filename='hotel_images/' + hotels.6.image_file) }}" alt="{{ hotels.6.name }}">
-                <h3>City Escape</h3>
+                <h3>{{ hotels.6.name }}</h3>
             </div>
         </div>
         <!-- Featured Rooms -->
         <div class="featured">
             <h2>Featured Rooms</h2>
             <div class="hotel-card">
-                <img class="img-fluid rounded" src="{{ url_for('static', filename='room_images/' + rooms.2.image_file) }}" alt="{{ rooms.2.name }}">
+                <img class="img-fluid rounded" src="{{ url_for('static', filename='room_images/' + rooms.8.image_file) }}" alt="{{ rooms.8.name }}">
                 <h3>Single Rooms</h3>
             </div>
             <div class="hotel-card">
@@ -119,13 +49,11 @@
             </div>
         </div>
         <!-- Cover Image -->
-<!--        <div class="cover">-->
-<!--            <img src="static/hotel_images/cover.jpg" alt="Hotel 1">-->
-<!--        </div>-->
         <div class="image-container">
-<!--            <img class="img-fluid rounded" src="{{ url_for('static', filename='hotel_images/' + hotels.10.image_file) }}" alt="{{ hotels.10.name }}">-->
-            <img class="img-fluid rounded" src="static/hotel_images/cover.jpg" alt="Hotel 1">
-        </div><hr>
+            <div class="cover">
+                <img class="img-fluid rounded" src="static/hotel_images/cover.jpg" alt="Hotel 1">
+            </div>
+        </div>
     <script>
         // Add JavaScript interactivity here if needed
         console.log('Homepage loaded successfully!');
