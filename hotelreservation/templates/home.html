@@ -3,7 +3,7 @@
 {% block content %}
 <!--    <h1>{{ block_title }}</h1><hr>-->
     <h1>Explore Hotels</h1><hr>
-    <form method="POST" action="{{ url_for('main.home', filter_key=filter_key, filter_val=filter_val) }}">
+    <form method="POST" action="{{ url_for('main.home', filter_key=filter_key, filter_value=filter_value) }}">
         <h5>Filter By:</h5>
         <h6>
             Hotel Name:
@@ -54,9 +54,9 @@
     {% for page_num in hotels.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
       {% if page_num %}
         {% if hotels.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.home', filter_key=filter_key, filter_val=filter_val, page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-info mb-4" href="{{ url_for('main.home', filter_key=filter_key, filter_value=filter_value, page=page_num) }}">{{ page_num }}</a>
         {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', filter_key=filter_key, filter_val=filter_val, page=page_num) }}">{{ page_num }}</a>
+          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', filter_key=filter_key, filter_value=filter_value, page=page_num) }}">{{ page_num }}</a>
         {% endif %}
       {% else %}
         ...

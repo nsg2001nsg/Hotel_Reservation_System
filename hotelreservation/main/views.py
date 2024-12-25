@@ -15,48 +15,43 @@ def hello():
 
 @main.route("/home/", methods=["GET", "POST"])
 def home():
+    print(f"request.args: {request.args}")
     page = request.args.get("page", 1, type=int)
-    filter_key = request.args.get("filter_key", "", type=str)
-    filter_val = request.args.get("filter_val", "", type=str)
-    # print(f"request.args: {request.args}")
-    print(f"request.form: {request.form}")
-    select_name = request.form.getlist("name")
-    len_name = len(select_name)
-    select_city = request.form.getlist("city")
-    len_city = len(select_city)
-    select_state = request.form.getlist("state")
-    len_state = len(select_state)
-    print(f"request.form: ")
     if request.method == "POST":
-        filter_dict = {
-            "default": {},
-            "name": {"name": request.form.get("name", "")},
-            "city": {"city": request.form.get("city", "")},
-            "state": {"state": request.form.get("state", "")},
-        }
-        filters = filter_dict.get(request.form.get("Filter", "default"))
-        filter_key = request.form.get("Filter", "default")
-        filter_val = filters.get(filter_key, "") if filters else filter_val
+        print(f"request.form: {request.form}")
+        select_name = request.form.getlist("name")
+        select_city = request.form.getlist("city")
+        select_state = request.form.getlist("state")
+        print(f"select_name: {select_name}")
+        print(f"select_city: {select_city}")
+        print(f"select_state: {select_state}")
+        filter_value = max([select_name, select_city, select_state])
+        print(f"filter_value: {filter_value}")
+        filter_ind = [select_name, select_city, select_state].index(filter_value)
+        print(f"filter_ind: {filter_ind}")
+        filters_list = [
+            {"name": request.form.get("name", "")},
+            {"city": request.form.get("city", "")},
+            {"state": request.form.get("state", "")},
+        ]
+        print(f"filters_list: {filters_list}")
+        filters = filters_list[filter_ind]
         print(f"filters: {filters}")
+        filter_keys = filters.keys()
+        print(f"filter_keys: {filter_keys}")
+        filter_key = list(filter_keys)[0] if filter_keys else None
+        print(f"filter_key: {filter_key}")
+        filter_values = filters.values()
+        print(f"filter_values: {filter_values}")
+        filter_value = list(filters.values())[0] if filters.values() else None
+        print(f"filter_value: {filter_value}")
     else:
-        filters = {}
-    #     if request.form.get("Name", ""):
-    #         hotel_name = request.form.get("Name", "")
-    #         filters = {"name": hotel_name}
-    #     elif request.form.get("City", ""):
-    #         hotel_city = request.form.get("City", "")
-    #         filters = {"city": hotel_city}
-    #     elif request.form.get("State", ""):
-    #         hotel_state = request.form.get("State", "")
-    #         filters = {"state": hotel_state}
-    # else:
-    #     if hotel_name:
-    #         filters = {"name": hotel_name}
-    #     elif hotel_city:
-    #         filters = {"city": hotel_city}
-    #     elif hotel_state:
-    #         filters = {"state": hotel_state}
-    # filters = {}
+        filter_key = request.args.get("filter_key", "", type=str)
+        print(f"filter_key: {filter_key}")
+        filter_value = request.args.get("filter_value", "", type=str)
+        print(f"filter_value: {filter_value}")
+    filters = {filter_key: filter_value} if filter_key and filter_value else {}
+    print(f"filters: {filters}")
     hotels = Hotel.query.filter_by(**filters).order_by(Hotel.date_posted.desc()).paginate(page=page, per_page=5)
     hotel_names = Hotel.query.group_by(Hotel.name).order_by(Hotel.name.asc()).distinct().values(Hotel.name)
     hotel_names = [i[0] for i in hotel_names]
@@ -69,7 +64,7 @@ def home():
     hotel_states.insert(0, "")
     return render_template("home.html", title="Home", block_title="Home Page", hotels=hotels,
                            hotel_names=hotel_names, hotel_cities=hotel_cities, hotel_states=hotel_states,
-                           filter_key=filter_key, filter_val=filter_val,
+                           filter_key=filter_key, filter_value=filter_value,
                            )
 
 
